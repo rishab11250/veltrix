@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-const LandingPage = () => <div>LandingPage</div>; export default LandingPage;
-=======
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
@@ -221,4 +218,3 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
->>>>>>> Stashed changes
