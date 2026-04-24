@@ -5,6 +5,15 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true, lowercase: true },
   password: { type: String, required: true, minlength: 8 },
   businessName: { type: String, required: true, trim: true },
+  registrationNumber: { type: String, trim: true },
+  taxId: { type: String, trim: true },
+  logoUrl: { type: String },
+  address: {
+    street: { type: String, trim: true },
+    city: { type: String, trim: true },
+    zipCode: { type: String, trim: true },
+    country: { type: String, trim: true },
+  },
   createdAt: { type: Date, default: Date.now }
 });
 
