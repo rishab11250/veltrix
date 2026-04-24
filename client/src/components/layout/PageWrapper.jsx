@@ -7,7 +7,7 @@ const PageWrapper = ({ title, actions, children }) => {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="p-6 md:p-8 min-h-screen bg-bg-primary"
+      className="p-8 pb-20"
     >
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>

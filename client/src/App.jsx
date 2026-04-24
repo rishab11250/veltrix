@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LandingPage from './pages/public/LandingPage';
 import LoginPage from './pages/public/LoginPage';
 import SignupPage from './pages/public/SignupPage';
@@ -7,6 +7,7 @@ import InvoicesPage from './pages/dashboard/InvoicesPage';
 import ClientsPage from './pages/dashboard/ClientsPage';
 import SettingsPage from './pages/dashboard/SettingsPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import DashboardLayout from './components/layout/DashboardLayout';
 
 function App() {
   return (
@@ -15,10 +16,22 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/app/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-        <Route path="/app/invoices" element={<ProtectedRoute><InvoicesPage /></ProtectedRoute>} />
-        <Route path="/app/clients" element={<ProtectedRoute><ClientsPage /></ProtectedRoute>} />
-        <Route path="/app/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
+        
+        {/* Dashboard Routes with Layout */}
+        <Route path="/app/*" element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <Routes>
+                <Route path="dashboard" element={<DashboardPage />} />
+                <Route path="invoices" element={<InvoicesPage />} />
+                <Route path="clients" element={<ClientsPage />} />
+                <Route path="settings" element={<SettingsPage />} />
+                {/* Fallback for /app */}
+                <Route path="" element={<Navigate to="dashboard" replace />} />
+              </Routes>
+            </DashboardLayout>
+          </ProtectedRoute>
+        } />
       </Routes>
     </BrowserRouter>
   );
