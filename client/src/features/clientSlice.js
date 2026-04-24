@@ -104,6 +104,19 @@ export const clientSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+      })
+      .addCase(deleteClient.pending, (state) => { state.isLoading = true; })
+      .addCase(deleteClient.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        // The backend returns { success: true, data: {} } where data is empty usually, or we can just filter by id
+        // Wait, action.meta.arg contains the `id` that was passed to the thunk!
+        state.clients = state.clients.filter((c) => c._id !== action.meta.arg);
+      })
+      .addCase(deleteClient.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       });
   },
 });
