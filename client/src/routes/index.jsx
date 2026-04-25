@@ -9,6 +9,7 @@ import ClientsPage from '../pages/dashboard/ClientsPage';
 import SettingsPage from '../pages/dashboard/SettingsPage';
 import AnalyticsPage from '../pages/dashboard/AnalyticsPage';
 import CreateInvoicePage from '../pages/dashboard/CreateInvoicePage';
+import ExpensesPage from '../pages/dashboard/ExpensesPage';
 import ProtectedRoute from './guards/ProtectedRoute';
 import PublicRoute from './guards/PublicRoute';
 import DashboardLayout from '../components/layout/DashboardLayout';
@@ -30,6 +31,7 @@ const AppRoutes = () => {
               <Route path="invoices/create" element={<CreateInvoicePage />} />
               <Route path="payments" element={<PaymentsPage />} />
               <Route path="clients" element={<ClientsPage />} />
+              <Route path="expenses" element={<ExpensesPage />} />
               <Route path="analytics" element={<AnalyticsPage />} />
               <Route path="settings" element={<SettingsPage />} />
               {/* Fallback for /app */}
