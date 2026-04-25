@@ -7,8 +7,8 @@ import PageWrapper from '../../components/layout/PageWrapper';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
 import InvoicePreview from '../../components/invoices/InvoicePreview';
-import { getClients } from '../../features/clientSlice';
-import { createInvoice } from '../../features/invoiceSlice';
+import { getClients } from '../../store/slices/clientSlice';
+import { createInvoice } from '../../store/slices/invoiceSlice';
 
 const CreateInvoicePage = () => {
   const dispatch = useDispatch();

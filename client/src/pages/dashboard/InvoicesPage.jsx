@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import PageWrapper from '../../components/layout/PageWrapper';
 import Button from '../../components/ui/Button';
 import Badge from '../../components/ui/Badge';
-import { getInvoices, deleteInvoice } from '../../features/invoiceSlice';
+import { getInvoices, deleteInvoice } from '../../store/slices/invoiceSlice';
 import { toast } from 'react-hot-toast';
 
 const InvoicesPage = () => {

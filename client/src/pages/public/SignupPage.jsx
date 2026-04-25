@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerThunk, reset } from '../../features/authSlice';
+import { registerThunk, reset } from '../../store/slices/authSlice';
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '', businessName: '' });
@@ -72,11 +72,11 @@ const SignupPage = () => {
             </div>
             <div>
               <label className="block text-xs font-semibold text-on-surface-variant mb-2 uppercase tracking-widest">Email Address</label>
-              <input type="email" name="email" value={email} onChange={onChange} className="w-full bg-[#1A1A1A] border border-[#2A2A2A] px-5 py-4 rounded-xl text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:bg-[#202020] transition-all hover:border-[#3A3A3A]" placeholder="nexus@veltrix.co" required />
+              <input type="email" name="email" value={email} onChange={onChange} className="w-full bg-[#1A1A1A] border border-[#2A2A2A] px-5 py-4 rounded-xl text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:bg-[#202020] transition-all hover:border-[#3A3A3A]" placeholder="nexus@veltrix.co" autoComplete="email" required />
             </div>
             <div>
               <label className="block text-xs font-semibold text-on-surface-variant mb-2 uppercase tracking-widest">Master Password</label>
-              <input type="password" name="password" value={password} onChange={onChange} className="w-full bg-[#1A1A1A] border border-[#2A2A2A] px-5 py-4 rounded-xl text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:bg-[#202020] transition-all hover:border-[#3A3A3A]" placeholder="Create a secure phrase" minLength="6" required />
+              <input type="password" name="password" value={password} onChange={onChange} className="w-full bg-[#1A1A1A] border border-[#2A2A2A] px-5 py-4 rounded-xl text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:bg-[#202020] transition-all hover:border-[#3A3A3A]" placeholder="Create a secure phrase" minLength="6" autoComplete="new-password" required />
             </div>
             
             <button type="submit" disabled={isLoading} className="w-full bg-white text-black font-bold py-4 rounded-xl hover:bg-gray-200 transition-all duration-300 transform active:scale-[0.98] mt-8 disabled:opacity-50 flex items-center justify-center gap-2">

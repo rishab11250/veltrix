@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getClients, deleteClient } from '../../features/clientSlice';
+import { getClients, deleteClient } from '../../store/slices/clientSlice';
 import PageWrapper from '../../components/layout/PageWrapper';
 import Table from '../../components/ui/Table';
 import Button from '../../components/ui/Button';

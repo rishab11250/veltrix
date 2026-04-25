@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import Modal from '../ui/Modal';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
-import { createClient, updateClient } from '../../features/clientSlice';
+import { createClient, updateClient } from '../../store/slices/clientSlice';
 
 const ClientModal = ({ isOpen, onClose, clientToEdit = null }) => {
   const dispatch = useDispatch();

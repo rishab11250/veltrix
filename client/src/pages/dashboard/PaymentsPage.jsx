@@ -4,7 +4,7 @@ import PageWrapper from '../../components/layout/PageWrapper';
 import Table from '../../components/ui/Table';
 import Badge from '../../components/ui/Badge';
 import Loader from '../../components/ui/Loader';
-import { getPayments, getPaymentStats } from '../../features/paymentSlice';
+import { getPayments, getPaymentStats } from '../../store/slices/paymentSlice';
 
 const PaymentsPage = () => {
   const dispatch = useDispatch();
