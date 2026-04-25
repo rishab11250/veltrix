@@ -3,7 +3,17 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true, trim: true },
   email: { type: String, required: true, unique: true, lowercase: true },
-  password: { type: String, required: true, minlength: 8 },
+  password: { 
+    type: String, 
+    required: true, 
+    minlength: 8,
+    validate: {
+      validator: function(v) {
+        return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(v);
+      },
+      message: "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number"
+    }
+  },
   businessName: { type: String, required: true, trim: true },
   registrationNumber: { type: String, trim: true },
   taxId: { type: String, trim: true },
