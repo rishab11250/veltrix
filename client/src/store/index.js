@@ -5,14 +5,16 @@ import invoiceReducer from './slices/invoiceSlice';
 import clientReducer from './slices/clientSlice';
 import paymentReducer from './slices/paymentSlice';
 import uiReducer from './slices/uiSlice';
+import expenseReducer from './slices/expenseSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     user: userReducer,
-    invoice: invoiceReducer,
+    invoices: invoiceReducer,
     client: clientReducer,
     payment: paymentReducer,
     ui: uiReducer,
+    expenses: expenseReducer,
   },
 });
