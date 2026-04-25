@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginThunk, reset } from '../../features/authSlice';
+import { loginThunk, reset } from '../../store/slices/authSlice';
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -62,14 +62,14 @@ const LoginPage = () => {
           <form onSubmit={onSubmit} className="space-y-5">
             <div>
               <label className="block text-xs font-semibold text-on-surface-variant mb-2 uppercase tracking-widest">Email Address</label>
-              <input type="email" name="email" value={email} onChange={onChange} className="w-full bg-[#1A1A1A] border border-[#2A2A2A] px-5 py-4 rounded-xl text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:bg-[#202020] transition-all hover:border-[#3A3A3A]" placeholder="nexus@veltrix.co" required />
+              <input type="email" name="email" value={email} onChange={onChange} className="w-full bg-[#1A1A1A] border border-[#2A2A2A] px-5 py-4 rounded-xl text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:bg-[#202020] transition-all hover:border-[#3A3A3A]" placeholder="nexus@veltrix.co" autoComplete="email" required />
             </div>
             <div>
               <div className="flex justify-between items-end mb-2">
                 <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-widest">Master Password</label>
                 <a href="#" className="text-xs text-primary font-medium hover:text-white transition-colors">Recover Access</a>
               </div>
-              <input type="password" name="password" value={password} onChange={onChange} className="w-full bg-[#1A1A1A] border border-[#2A2A2A] px-5 py-4 rounded-xl text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:bg-[#202020] transition-all hover:border-[#3A3A3A]" placeholder="••••••••" required />
+              <input type="password" name="password" value={password} onChange={onChange} className="w-full bg-[#1A1A1A] border border-[#2A2A2A] px-5 py-4 rounded-xl text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:bg-[#202020] transition-all hover:border-[#3A3A3A]" placeholder="••••••••" autoComplete="current-password" required />
             </div>
             
             <button type="submit" disabled={isLoading} className="w-full bg-white text-black font-bold py-4 rounded-xl hover:bg-gray-200 transition-all duration-300 transform active:scale-[0.98] mt-8 disabled:opacity-50 flex items-center justify-center gap-2">

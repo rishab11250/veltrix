@@ -4,7 +4,7 @@ import PageWrapper from '../../components/layout/PageWrapper';
 import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
 import axiosInstance from '../../services/axiosInstance';
-import { logoutThunk, setUser } from '../../features/authSlice';
+import { logoutThunk, setUser } from '../../store/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 

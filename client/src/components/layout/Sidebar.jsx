@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { logoutThunk } from '../../features/authSlice';
+import { logoutThunk } from '../../store/slices/authSlice';
 
 const Sidebar = () => {
   const location = useLocation();
