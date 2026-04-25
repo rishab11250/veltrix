@@ -4,7 +4,7 @@ const invoiceItemSchema = new mongoose.Schema({
   description: { type: String, required: true },
   quantity: { type: Number, required: true, default: 1 },
   unitPrice: { type: Number, required: true },
-  amount: { type: Number, required: true }
+  amount: { type: Number }
 });
 
 const invoiceSchema = new mongoose.Schema({
