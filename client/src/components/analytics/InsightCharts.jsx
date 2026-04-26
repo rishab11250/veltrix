@@ -57,7 +57,7 @@ export const ClientConcentrationChart = ({ data, colors }) => (
       </ResponsiveContainer>
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
         <span className="text-3xl font-black text-white">
-          {data.length > 0 ? `${Math.round((data[0].totalRevenue / data.reduce((a, b) => a + b.totalRevenue, 0)) * 100)}%` : '0%'}
+          {data?.length > 0 ? `${Math.round((data[0].totalRevenue / data.reduce((a, b) => (a || 0) + (b.totalRevenue || 0), 0)) * 100)}%` : '0%'}
         </span>
         <span className="text-[10px] uppercase tracking-widest text-gray-500">Top Client</span>
       </div>
@@ -76,8 +76,10 @@ export const ClientConcentrationChart = ({ data, colors }) => (
   </div>
 );
 
-export const ARAgingChart = ({ data }) => (
-  <div className="h-[200px] w-full">
+export const ARAgingChart = ({ data }) => {
+  if (!data) return <div className="h-[200px] flex items-center justify-center text-text-muted text-xs italic">No aging data</div>;
+  return (
+    <div className="h-[200px] w-full">
     <ResponsiveContainer width="100%" height="100%">
       <BarChart data={data}>
         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#262626" />
