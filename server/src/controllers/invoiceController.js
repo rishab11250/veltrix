@@ -9,7 +9,19 @@ const ApiResponse = require('../utils/apiResponse');
 // @access  Private
 exports.getInvoices = asyncHandler(async (req, res) => {
   const userId = req.user._id;
-  const invoices = await Invoice.find({ $or: [{ user: userId }, { userId: userId }] })
+  const userQuery = { $or: [{ user: userId }, { userId: userId }] };
+
+  // Auto-update overdue invoices
+  await Invoice.updateMany(
+    { 
+      ...userQuery, 
+      status: 'sent', 
+      dueDate: { $lt: new Date() } 
+    },
+    { status: 'overdue' }
+  );
+
+  const invoices = await Invoice.find(userQuery)
     .populate('client', 'name email')
     .sort({ createdAt: -1 });
 
@@ -99,6 +111,40 @@ exports.updateStatus = asyncHandler(async (req, res) => {
 
   return res.status(200).json(
     new ApiResponse(200, invoice, "Invoice status updated successfully")
+  );
+});
+
+// @desc    Update invoice
+// @route   PUT /api/v1/invoices/:id
+// @access  Private
+exports.updateInvoice = asyncHandler(async (req, res) => {
+  const { client, invoiceNumber, dueDate, items, tax, notes, currency, status } = req.body;
+  const userId = req.user._id;
+
+  const invoice = await Invoice.findOne({ 
+    _id: req.params.id, 
+    $or: [{ user: userId }, { userId: userId }] 
+  });
+
+  if (!invoice) {
+    throw new ApiError(404, "Invoice not found");
+  }
+
+  // If client changed, verify new client
+  if (client && client !== invoice.client.toString()) {
+    const clientExists = await Client.findOne({ _id: client, userId });
+    if (!clientExists) throw new ApiError(404, "New client not found");
+  }
+
+  // Update fields
+  const updated = await Invoice.findByIdAndUpdate(
+    req.params.id,
+    { client, invoiceNumber, dueDate, items, tax, notes, currency, status },
+    { new: true, runValidators: true }
+  );
+
+  return res.status(200).json(
+    new ApiResponse(200, updated, "Invoice updated successfully")
   );
 });
 

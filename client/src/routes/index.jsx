@@ -29,6 +29,7 @@ const AppRoutes = () => {
               <Route path="dashboard" element={<DashboardPage />} />
               <Route path="invoices" element={<InvoicesPage />} />
               <Route path="invoices/create" element={<CreateInvoicePage />} />
+              <Route path="invoices/edit/:id" element={<EditInvoicePage />} />
               <Route path="payments" element={<PaymentsPage />} />
               <Route path="clients" element={<ClientsPage />} />
               <Route path="expenses" element={<ExpensesPage />} />
