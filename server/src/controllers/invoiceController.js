@@ -47,7 +47,7 @@ exports.createInvoice = asyncHandler(async (req, res) => {
   // Verify client belongs to user
   const clientExists = await Client.findOne({ 
     _id: client, 
-    $or: [{ user: userId }, { userId: userId }] 
+    userId: userId 
   });
   
   if (!clientExists) {
