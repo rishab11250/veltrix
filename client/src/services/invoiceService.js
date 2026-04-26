@@ -25,10 +25,16 @@ const deleteInvoice = async (id) => {
   return response.data;
 };
 
+const updateInvoice = async (id, invoiceData) => {
+  const response = await axiosInstance.put(`/invoices/${id}`, invoiceData);
+  return response.data;
+};
+
 const invoiceService = {
   getInvoices,
   getInvoice,
   createInvoice,
+  updateInvoice,
   updateInvoiceStatus,
   deleteInvoice,
 };

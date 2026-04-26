@@ -4,6 +4,7 @@ const {
   getInvoices, 
   getInvoice, 
   createInvoice, 
+  updateInvoice,
   updateStatus, 
   deleteInvoice 
 } = require('../controllers/invoiceController');
@@ -17,6 +18,7 @@ router.route('/')
 
 router.route('/:id')
   .get(getInvoice)
+  .put(updateInvoice)
   .delete(deleteInvoice);
 
 router.patch('/:id/status', updateStatus);

@@ -90,7 +90,19 @@ const InvoicesPage = () => {
                     <td className="px-8 py-6"><span className="text-xs font-medium text-text-muted">{new Date(inv.issueDate).toLocaleDateString()}</span></td>
                     <td className="px-8 py-6"><span className="text-sm font-black text-white tabular-nums">₹{inv.total?.toLocaleString()}</span></td>
                     <td className="px-8 py-6"><Badge variant={getStatusColor(inv.status)} className="uppercase tracking-widest px-3 py-1 text-[9px] font-black">{inv.status}</Badge></td>
-                    <td className="px-8 py-6"><div className="flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-all"><button className="text-text-muted hover:text-white"><span className="material-symbols-outlined text-[18px]">visibility</span></button><button onClick={() => handleDelete(inv._id)} className="text-text-muted hover:text-rose-500"><span className="material-symbols-outlined text-[18px]">delete</span></button></div></td>
+                    <td className="px-8 py-6">
+                      <div className="flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-all">
+                        <button 
+                          onClick={() => navigate(`/app/invoices/edit/${inv._id}`)}
+                          className="text-text-muted hover:text-white"
+                        >
+                          <span className="material-symbols-outlined text-[18px]">edit</span>
+                        </button>
+                        <button onClick={() => handleDelete(inv._id)} className="text-text-muted hover:text-rose-500">
+                          <span className="material-symbols-outlined text-[18px]">delete</span>
+                        </button>
+                      </div>
+                    </td>
                   </motion.tr>
                 ))}
               </tbody>
