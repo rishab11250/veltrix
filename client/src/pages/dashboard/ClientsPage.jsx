@@ -12,9 +12,7 @@ const ClientsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clientToEdit, setClientToEdit] = useState(null);
 
-  useEffect(() => {
-    dispatch(getClients());
-  }, [dispatch]);
+  useEffect(() => { dispatch(getClients()); }, [dispatch]);
 
   const handleOpenModal = (client = null) => {
     setClientToEdit(client);
@@ -22,72 +20,63 @@ const ClientsPage = () => {
   };
 
   const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete this client?')) {
-      dispatch(deleteClient(id));
-    }
+    if (window.confirm('Delete this client?')) dispatch(deleteClient(id));
   };
 
   const columns = [
     { 
-      header: 'Client Name', 
-      accessor: 'name',
-      render: (row) => (
+      header: 'Client Name', accessor: 'name',
+      render: (r) => (
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded bg-primary/10 text-primary flex justify-center items-center font-bold text-xs uppercase tracking-wider">
-            {row.name.charAt(0)}
-          </div>
-          <span className="font-semibold text-text-primary">{row.name}</span>
+          <div className="w-8 h-8 rounded bg-primary/10 text-primary flex justify-center items-center font-bold text-xs uppercase">{r.name[0]}</div>
+          <span className="font-semibold text-white">{r.name}</span>
         </div>
       )
     },
-    { header: 'Email Address', accessor: 'email', render: (row) => row.email || <span className="text-text-muted italic">N/A</span> },
-    { header: 'Phone', accessor: 'phone', render: (row) => row.phone || <span className="text-text-muted italic">N/A</span> },
+    { header: 'Email Address', accessor: 'email' },
+    { header: 'Phone', accessor: 'phone' },
     {
       header: 'Actions',
-      render: (row) => (
+      render: (r) => (
         <div className="flex items-center gap-4">
-          <button
-            onClick={() => handleOpenModal(row)}
-            className="text-text-muted hover:text-primary transition-colors text-sm font-medium flex items-center gap-1.5"
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-            </svg>
-            Edit
-          </button>
-          <button
-            onClick={() => handleDelete(row._id)}
-            className="text-text-muted hover:text-error transition-colors text-sm font-medium flex items-center gap-1.5"
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-            </svg>
-            Delete
-          </button>
+          <button onClick={() => handleOpenModal(r)} className="text-text-muted hover:text-primary transition-colors text-sm font-medium">Edit</button>
+          <button onClick={() => handleDelete(r._id)} className="text-text-muted hover:text-error transition-colors text-sm font-medium">Delete</button>
         </div>
       ),
     },
   ];
 
-  const actions = (
-    <Button onClick={() => handleOpenModal()}>
-      + New Client
-    </Button>
-  );
-
   return (
-    <PageWrapper title="Clients" actions={actions}>
-      <Table 
-        columns={columns} 
-        data={clients} 
-        loading={isLoading} 
-        emptyMessage="No clients found. Add your first client to start generating invoices."
-      />
-      <ClientModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        clientToEdit={clientToEdit} 
-      />
+    <PageWrapper title="Clients" actions={<Button onClick={() => handleOpenModal()}>+ New Client</Button>}>
+      <div className="hidden md:block">
+        <Table columns={columns} data={clients} loading={isLoading} />
+      </div>
+      
+      {/* Mobile Card View */}
+      <div className="md:hidden space-y-4 px-4 pb-20">
+        {isLoading ? <div className="text-center py-10 text-text-muted">Loading...</div> :
+         clients.length === 0 ? <div className="text-center py-10 text-text-muted">No clients found</div> :
+         clients.map(c => (
+          <div key={c._id} className="bg-[#121212] border border-[#1E1E1E] p-5 rounded-2xl space-y-4">
+            <div className="flex justify-between items-start">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-black">{c.name[0]}</div>
+                <div>
+                  <h3 className="font-bold text-white leading-tight">{c.name}</h3>
+                  <p className="text-[10px] text-text-muted uppercase tracking-widest mt-0.5">{c.email || 'No Email'}</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <button onClick={() => handleOpenModal(c)} className="text-text-muted hover:text-white"><span className="material-symbols-outlined text-sm">edit</span></button>
+                <button onClick={() => handleDelete(c._id)} className="text-text-muted hover:text-error"><span className="material-symbols-outlined text-sm">delete</span></button>
+              </div>
+            </div>
+            {c.phone && <div className="flex items-center gap-2 text-xs text-text-muted"><span className="material-symbols-outlined text-sm">phone</span>{c.phone}</div>}
+          </div>
+         ))}
+      </div>
+
+      <ClientModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} clientToEdit={clientToEdit} />
     </PageWrapper>
   );
 };
