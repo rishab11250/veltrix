@@ -25,117 +25,69 @@ const PaymentsPage = () => {
 
   const columns = [
     { 
-      header: 'Transaction ID', 
-      accessor: 'transactionId',
-      render: (row) => <span className="font-mono text-[10px] text-text-muted uppercase tracking-tighter">{row.transactionId}</span>
+      header: 'Transaction ID', accessor: 'transactionId',
+      render: (r) => <span className="font-mono text-[10px] text-text-muted uppercase tracking-tighter">{r.transactionId}</span>
     },
+    { header: 'Date', accessor: 'date', render: (r) => <span className="text-xs text-text-muted">{formatDate(r.date)}</span> },
+    { header: 'Client', accessor: 'client', render: (r) => <span className="text-sm font-bold text-white">{r.client?.name || 'Unknown'}</span> },
+    { header: 'Amount', accessor: 'amount', render: (r) => <div className="text-right font-black text-white">{formatCurrency(r.amount)}</div> },
     { 
-      header: 'Date', 
-      accessor: 'date',
-      render: (row) => <span className="text-xs font-medium text-text-muted">{formatDate(row.date)}</span>
-    },
-    { 
-      header: 'Client', 
-      accessor: 'client',
-      render: (row) => <span className="text-sm font-bold text-white">{row.client?.name || 'Unknown Client'}</span>
-    },
-    { 
-      header: 'Amount', 
-      accessor: 'amount',
-      render: (row) => (
-        <div className="text-right font-black text-white tabular-nums">
-          {formatCurrency(row.amount)}
-        </div>
-      )
-    },
-    { 
-      header: 'Method', 
-      accessor: 'method',
-      render: (row) => (
-        <div className="flex items-center gap-2 text-[10px] font-black uppercase text-white/40 tracking-widest">
-          <span className="material-symbols-outlined text-[16px]">
-            {row.method === 'Credit Card' ? 'credit_card' : 'account_balance'}
-          </span>
-          {row.method}
-        </div>
-      )
-    },
-    { 
-      header: 'Status', 
-      accessor: 'status',
-      render: (row) => (
-        <Badge variant={row.status === 'Paid' ? 'success' : row.status === 'Pending' ? 'warning' : 'danger'} className="uppercase tracking-widest px-3 py-1 text-[9px] font-black">
-          {row.status}
-        </Badge>
-      )
+      header: 'Status', accessor: 'status',
+      render: (r) => <Badge variant={r.status === 'Paid' ? 'success' : r.status === 'Pending' ? 'warning' : 'danger'} className="uppercase px-3 py-1 text-[9px] font-black">{r.status}</Badge>
     }
   ];
 
   return (
     <PageWrapper title="Payments">
-      <div className="space-y-8 max-w-[1400px] mx-auto pb-20">
-        <div className="flex justify-between items-end">
+      <div className="space-y-8 max-w-[1400px] mx-auto pb-20 px-4 md:px-0">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
           <div className="space-y-1">
-            <h2 className="text-3xl font-black text-white tracking-tight text-glow">Payments Ledger</h2>
-            <p className="text-sm text-text-muted font-medium">Comprehensive record of all incoming transactions.</p>
+            <h2 className="text-3xl font-black text-white tracking-tight">Payments Ledger</h2>
+            <p className="text-sm text-text-muted font-medium">Record of all transactions.</p>
           </div>
-          <Button onClick={() => setIsModalOpen(true)} variant="brand">
-            Record Payment
-          </Button>
+          <Button onClick={() => setIsModalOpen(true)} variant="brand" className="w-full md:w-auto">Record Payment</Button>
         </div>
 
-        {/* Metrics Row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
-            { label: 'Total Collected', value: formatCurrency(stats.totalCollected), color: 'primary' },
-            { label: 'Pending Processing', value: formatCurrency(stats.pendingProcessing), color: 'warning' },
-            { label: 'Failed Transactions', value: formatCurrency(stats.failedTransactions), color: 'danger' }
+            { label: 'Collected', value: formatCurrency(stats.totalCollected), color: 'primary' },
+            { label: 'Pending', value: formatCurrency(stats.pendingProcessing), color: 'warning' },
+            { label: 'Failed', value: formatCurrency(stats.failedTransactions), color: 'danger' }
           ].map((stat, i) => (
-            <div key={i} className="glass-panel p-6 rounded-3xl border border-white/5 relative overflow-hidden group">
-              <div className={`absolute top-0 right-0 w-24 h-24 bg-${stat.color}/5 rounded-full blur-3xl -mr-12 -mt-12 group-hover:bg-${stat.color}/10 transition-all`} />
-              <p className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mb-2">{stat.label}</p>
+            <div key={i} className="glass-panel p-6 rounded-3xl border border-white/5">
+              <p className="text-[10px] font-black text-text-muted uppercase tracking-widest mb-2">{stat.label}</p>
               <h3 className="text-2xl font-black text-white italic tracking-tighter">{stat.value}</h3>
             </div>
           ))}
         </div>
 
-        {/* Table Section */}
-        <div className="glass-panel rounded-[32px] border border-white/5 overflow-hidden">
-          <div className="p-6 bg-white/5 border-b border-white/5 flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <select 
-                value={activeFilter}
-                onChange={(e) => setActiveFilter(e.target.value)}
-                className="bg-[#1A1A1A] text-white text-[10px] font-black uppercase tracking-widest rounded-xl px-4 py-2 border border-white/10 focus:border-primary outline-none cursor-pointer"
-              >
-                <option value="All">Status: All</option>
-                <option value="Paid">Paid</option>
-                <option value="Pending">Pending</option>
-                <option value="Failed">Failed</option>
-              </select>
-            </div>
-            <button className="flex items-center gap-2 text-[10px] font-black text-primary hover:text-white transition-colors uppercase tracking-widest">
-              <span className="material-symbols-outlined text-[18px]">download</span>
-              Export CSV
-            </button>
+        <div className="glass-panel rounded-[24px] md:rounded-[32px] border border-white/5 overflow-hidden">
+          <div className="hidden md:block">
+            <Table columns={columns} data={filteredPayments} loading={isLoading} />
           </div>
-
-          <Table 
-            columns={columns} 
-            data={filteredPayments} 
-            loading={isLoading} 
-            emptyMessage="No payment records found."
-          />
+          
+          <div className="md:hidden divide-y divide-white/5">
+            {isLoading ? <div className="p-10 text-center text-text-muted">Loading...</div> :
+             filteredPayments.length === 0 ? <div className="p-10 text-center text-text-muted">No payments</div> :
+             filteredPayments.map(p => (
+              <div key={p._id} className="p-6 space-y-4">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <p className="text-[10px] font-mono text-text-muted uppercase">{p.transactionId}</p>
+                    <h4 className="font-bold text-white mt-1">{p.client?.name || 'Unknown Client'}</h4>
+                  </div>
+                  <Badge variant={p.status === 'Paid' ? 'success' : 'warning'} className="uppercase text-[8px] font-black">{p.status}</Badge>
+                </div>
+                <div className="flex justify-between items-end">
+                  <span className="text-xs text-text-muted">{formatDate(p.date)}</span>
+                  <span className="text-lg font-black text-white">{formatCurrency(p.amount)}</span>
+                </div>
+              </div>
+             ))}
+          </div>
         </div>
       </div>
-
-      <PaymentModal 
-        isOpen={isModalOpen} 
-        onClose={() => {
-          setIsModalOpen(false);
-          dispatch(getPaymentStats()); // Refresh stats after modal closes
-        }} 
-      />
+      <PaymentModal isOpen={isModalOpen} onClose={() => { setIsModalOpen(false); dispatch(getPaymentStats()); }} />
     </PageWrapper>
   );
 };
