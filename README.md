@@ -1,6 +1,9 @@
 <div align="center">
   
-  <img src="client/public/logo.png" alt="Veltrix Logo">
+  <h1>
+    <img src="client/public/favicon.svg" alt="Veltrix Icon" width="40" style="vertical-align: middle; margin-right: 8px;" />
+    Veltrix
+  </h1>
   
   <p><strong>The Definitive Financial Operating System & Sovereign Wealth Ledger</strong></p>
 
